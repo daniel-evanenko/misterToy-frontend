@@ -1,0 +1,30 @@
+.toy-preview {
+  text-align: center;
+  padding: 0.3em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.toy-preview h4 {
+  text-transform: capitalize;
+  color: black;
+}
+
+.toy-preview img {
+  max-width: 100px;
+}
+
+.toy-preview .labels {
+  margin-top: 10px;
+}
+
+.toy-preview .label {
+  display: inline-block;
+  background-color: var(--clr1bg-light);
+  color: var(--gray3);
+  padding: 5px 10px;
+  margin: 3px;
+  border-radius: 5px;
+  font-size: 12px;
+}

@@ -1,35 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Route, Routes,} from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
+import { AppHeader } from './cmps/AppHeader.jsx';
+import { Home } from './pages/Home.jsx';
+import { About } from './pages/About.jsx';
+import { ToyIndex } from './pages/ToyIndex.jsx';
+import { ToyDetails } from './pages/ToyDetails.jsx';
+import { ToyEdit } from './pages/ToyEdit.jsx';
+import { AboutTeam } from './cmps/AboutTeam.jsx';
+import { AboutVision } from './cmps/AboutVision.jsx';
+import { Dashboard } from './pages/Dashboard.jsx';
+import { ConfirmModal } from './cmps/ConfirmModal.jsx';
+import { UserDetails } from './cmps/UserDetails.jsx';
+import './assets/style/App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Provider store={store}>
+      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <section className="app main-layout">
+          <AppHeader />
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />}>
+                <Route path="team" element={<AboutTeam />} />
+                <Route path="vision" element={<AboutVision />} />
+              </Route>
+              <Route path="/toy" element={<ToyIndex />} />
+              <Route path="/toy/:toyId" element={<ToyDetails />} />
+              <Route path="/toy/edit" element={<ToyEdit />} />
+              <Route path="/toy/edit/:toyId" element={<ToyEdit />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/user" element={<UserDetails />} />
+            </Routes>
+          </main>
+          <ConfirmModal />
+        </section>
+      </Router>
+    </Provider>
+  );
 }
 
-export default App
+export default App;
