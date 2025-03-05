@@ -16,8 +16,8 @@
 @import "cmps/DataTable.css";
 @import "cmps/FancyBox.css";
 @import "cmps/SplitPane.css";
-
-@import "cmps/TodoFilter.css";
+@import "cmps/MultiSelectDropdown.css";
+@import "cmps/ToyFilter.css";
 @import "cmps/ToyList.css";
 @import "cmps/ToyPreview.css";
 @import "cmps/ToyDetails.css";

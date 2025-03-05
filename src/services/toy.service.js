@@ -1,9 +1,5 @@
-import {
-    utilService
-} from './util.service.js'
-import {
-    storageService
-} from './async-storage.service.js'
+import { utilService } from './util.service.js'
+import { storageService } from './async-storage.service.js'
 
 const toy_KEY = 'toyDB'
 _createToys()
@@ -22,20 +18,29 @@ export const toyService = {
 window.cs = toyService
 
 function query(filterBy = {}) {
-    return storageService.query(toy_KEY)
+    return storageService
+        .query(toy_KEY)
         .then(toys => {
             if (filterBy.name) {
-                const regExp = new RegExp(filterBy.name, 'i')
-                toys = toys.filter(toy => regExp.test(toy.name))
+                const regExp = new RegExp(filterBy.name, 'i');
+                toys = toys.filter(toy => regExp.test(toy.name));
             }
 
+            if (filterBy.byStock) {
+                toys = toys.filter(toy => filterBy.byStock === 'inStock' ? toy.inStock === true : filterBy.byStock === 'outOfStock' ? toy.inStock !== true : true);
+            }
+
+            if (Array.isArray(filterBy.byLabels) && filterBy.byLabels.length > 0) {
+                toys = toys.filter(toy => Array.isArray(toy.labels) && filterBy.byLabels.every(label => toy.labels.includes(label)));
+
+            }
 
             return toys
         })
 }
-
 function get(toyId) {
-    return storageService.get(toy_KEY, toyId)
+    return storageService
+        .get(toy_KEY, toyId)
         .then(toy => {
             toy = _setNextPrevToyId(toy)
             return toy
@@ -53,23 +58,18 @@ function save(toy) {
         return storageService.put(toy_KEY, toy)
     } else {
         toy.createdAt = toy.updatedAt = Date.now()
+        toy.labels = utilService.getRandomLabels()
         toy.imgUrl = 'https://images.pexels.com/photos/13584249/pexels-photo-13584249.jpeg'
         return storageService.post(toy_KEY, toy)
     }
 }
 
 function getEmptyToy(name = '', price = '', inStock = false) {
-    return {
-        name,
-        price,
-        inStock
-    }
+    return { name, price, inStock }
 }
 
 function getDefaultFilter() {
-    return {
-        name: ''
-    }
+    return { name: '', byStock: 'all', byLabels: [] }
 }
 
 function getFilterFromSearchParams(searchParams) {
@@ -81,12 +81,14 @@ function getFilterFromSearchParams(searchParams) {
     return filterBy
 }
 
-
 function getPriceStats() {
-    return storageService.query(toy_KEY)
+    return storageService
+        .query(toy_KEY)
         .then(toys => {
             const toyCountByPriceMap = _getToyCountByPriceMap(toys)
-            const data = Object.keys(toyCountByPriceMap).map(priceName => ({ title: priceName, value: toyCountByPriceMap[priceName] }))
+            const data = Object
+                .keys(toyCountByPriceMap)
+                .map(priceName => ({ title: priceName, value: toyCountByPriceMap[priceName] }))
             return data
         })
 
@@ -117,14 +119,20 @@ function _createToy() {
 }
 
 function _setNextPrevToyId(toy) {
-    return storageService.query(toy_KEY).then((toys) => {
-        const toyIdx = toys.findIndex((currToy) => currToy._id === toy._id)
-        const nextToy = toys[toyIdx + 1] ? toys[toyIdx + 1] : toys[0]
-        const prevToy = toys[toyIdx - 1] ? toys[toyIdx - 1] : toys[toys.length - 1]
-        toy.nextToyId = nextToy._id
-        toy.prevToyId = prevToy._id
-        return toy
-    })
+    return storageService
+        .query(toy_KEY)
+        .then((toys) => {
+            const toyIdx = toys.findIndex((currToy) => currToy._id === toy._id)
+            const nextToy = toys[toyIdx + 1]
+                ? toys[toyIdx + 1]
+                : toys[0]
+            const prevToy = toys[toyIdx - 1]
+                ? toys[toyIdx - 1]
+                : toys[toys.length - 1]
+            toy.nextToyId = nextToy._id
+            toy.prevToyId = prevToy._id
+            return toy
+        })
 }
 
 function _getToyCountByPriceMap(toys) {
@@ -133,7 +141,10 @@ function _getToyCountByPriceMap(toys) {
         else if (toy.price < 70) map.normal++
         else map.high++
         return map
-    }, { low: 0, normal: 0, high: 0 })
+    }, {
+        low: 0,
+        normal: 0,
+        high: 0
+    })
     return toyCountByPriceMap
 }
-

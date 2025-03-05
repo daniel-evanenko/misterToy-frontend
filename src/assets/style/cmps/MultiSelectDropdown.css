@@ -1,0 +1,39 @@
+.multi-select {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-btn {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    background: white;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .dropdown-list {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    list-style: none;
+    padding: 8px;
+    margin: 0;
+    width: 200px;
+    max-height: 150px;
+    overflow-y: auto;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .dropdown-list li {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .dropdown-list label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  
