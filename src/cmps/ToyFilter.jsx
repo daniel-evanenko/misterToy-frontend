@@ -2,10 +2,12 @@ import { utilService } from "../services/util.service.js"
 import { useState, useEffect, useRef } from "react"
 export function ToyFilter({ filterBy, onSetFilterBy }) {
 
-    const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
+    const [filterByToEdit,
+        setFilterByToEdit] = useState({
+            ...filterBy
+        })
     onSetFilterBy = useRef(utilService.debounce(onSetFilterBy)).current
     useEffect(() => {
-        // Notify parent
         onSetFilterBy(filterByToEdit)
     }, [filterByToEdit])
 
@@ -23,10 +25,14 @@ export function ToyFilter({ filterBy, onSetFilterBy }) {
                 value = target.checked
                 break
 
-            default: break
+            default:
+                break
         }
 
-        setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
+        setFilterByToEdit(prevFilter => ({
+            ...prevFilter,
+            [field]: value
+        }))
     }
 
     // Optional support for LAZY Filtering with a button
@@ -41,11 +47,13 @@ export function ToyFilter({ filterBy, onSetFilterBy }) {
         <section className="todo-filter">
             <h2>Filter toys</h2>
             <form onSubmit={onSubmitFilter}>
-                <input value={name} onChange={handleChange}
-                    type="search" placeholder="By Name" id="name" name="name"
-                />
-
-                {/* <label htmlFor="filterByOpt">Filter by:</label>
+                <input
+                    value={name}
+                    onChange={handleChange}
+                    type="search"
+                    placeholder="By Name"
+                    id="name"
+                    name="name" /> {/* <label htmlFor="filterByOpt">Filter by:</label>
                 <select value={filterByOpt} onChange={handleChange} name="filterByOpt">
                     {filterByOpts.map(opt => (
                         <option key={opt} value={opt}>{opt}</option>

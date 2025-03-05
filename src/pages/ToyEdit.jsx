@@ -2,17 +2,15 @@ import { toyService } from "../services/toy.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { saveToy } from "../store/actions/toy.actions.js"
 import { addUserActivity } from "../store/actions/user.actions.js"
-
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-
 export function ToyEdit() {
 
     const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate()
     const params = useParams()
-
+    
     useEffect(() => {
         if (params.toyId) loadToy()
     }, [])
@@ -23,7 +21,6 @@ export function ToyEdit() {
             .then(setToyToEdit)
             .catch(err => console.log('err:', err))
             .finally(() => setIsLoading(false));
-
     }
 
     function handleChange({ target }) {

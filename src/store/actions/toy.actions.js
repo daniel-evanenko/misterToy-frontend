@@ -1,6 +1,6 @@
 import { store } from "../store.js";
 import { toyService } from "../../services/toy.service.js";
-import { ADD_TOY, REMOVE_TOY, SET_IS_LOADING, SET_TOYS,UPDATE_TOY } from "../reducers/toy.reducer.js";
+import { ADD_TOY, REMOVE_TOY, SET_IS_LOADING, SET_TOYS, UPDATE_TOY } from "../reducers/toy.reducer.js";
 
 export async function loadToys() {
     const filterBy = store.getState().toyModule.filterBy

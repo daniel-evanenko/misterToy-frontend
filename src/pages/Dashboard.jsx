@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import {Chart} from '../cmps/Chart.jsx'
+import { Chart } from '../cmps/Chart.jsx'
 import { toyService } from '../services/toy.service.js'
 
 export function Dashboard() {
@@ -7,13 +7,14 @@ export function Dashboard() {
     const [toys, setToys] = useState([])
     const [priceStats, setPriceStats] = useState([])
 
-    useEffect(()=>{
-        toyService.query()
+    useEffect(() => {
+        toyService
+            .query()
             .then(setToys)
-        toyService.getPriceStats()
+        toyService
+            .getPriceStats()
             .then(setPriceStats)
     }, [])
-
 
     return (
         <section className="dashboard">
@@ -21,7 +22,7 @@ export function Dashboard() {
             <h2>Statistics for {toys.length} Toys</h2>
             <hr />
             <h4>By price</h4>
-            <Chart data={priceStats}/>
+            <Chart data={priceStats} />
         </section>
     )
 }

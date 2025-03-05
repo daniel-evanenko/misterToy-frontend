@@ -6,10 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 export function UserDetails() {
   const userFromStore = useSelector(storeState => storeState.userModule.loggedInUser);
-  const [user, setUser] = useState(userFromStore); 
+  const [user,
+    setUser] = useState(userFromStore);
   const navigate = useNavigate()
 
-  function handleChange({target}) {
+  function handleChange({ target }) {
     const field = target.name
     let value = target.value
     switch (target.type) {

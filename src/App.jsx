@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes,} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
 import { AppHeader } from './cmps/AppHeader.jsx';
@@ -17,22 +17,26 @@ import './assets/style/App.css';
 function App() {
   return (
     <Provider store={store}>
-      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <Router
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true
+        }}>
         <section className="app main-layout">
           <AppHeader />
           <main>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />}>
-                <Route path="team" element={<AboutTeam />} />
-                <Route path="vision" element={<AboutVision />} />
+              <Route path="/" element={< Home />} />
+              <Route path="/about" element={< About />}>
+                <Route path="team" element={< AboutTeam />} />
+                <Route path="vision" element={< AboutVision />} />
               </Route>
-              <Route path="/toy" element={<ToyIndex />} />
-              <Route path="/toy/:toyId" element={<ToyDetails />} />
-              <Route path="/toy/edit" element={<ToyEdit />} />
-              <Route path="/toy/edit/:toyId" element={<ToyEdit />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/user" element={<UserDetails />} />
+              <Route path="/toy" element={< ToyIndex />} />
+              <Route path="/toy/:toyId" element={< ToyDetails />} />
+              <Route path="/toy/edit" element={< ToyEdit />} />
+              <Route path="/toy/edit/:toyId" element={< ToyEdit />} />
+              <Route path="/dashboard" element={< Dashboard />} />
+              <Route path="/user" element={< UserDetails />} />
             </Routes>
           </main>
           <ConfirmModal />

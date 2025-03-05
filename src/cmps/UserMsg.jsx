@@ -1,5 +1,3 @@
-
-
 import { eventBusService } from "../services/event-bus.service.js"
 import { useState, useEffect, useRef } from "react"
 export function UserMsg() {
@@ -18,7 +16,8 @@ export function UserMsg() {
         return unsubscribe
     }, [])
 
-    if (!msg) return null
+    if (!msg)
+        return null
 
     return (
         <section className={"user-msg " + msg.type}>

@@ -3,7 +3,8 @@ import { ADD_USER_ACTIVITY, SET_USER, SET_USER_BALANCE, SET_USER_DETAILS } from 
 import { store } from "../store.js"
 
 export function login(credentials) {
-    return userService.login(credentials)
+    return userService
+        .login(credentials)
         .then(user => {
             store.dispatch({ type: SET_USER, user })
         })
@@ -13,9 +14,9 @@ export function login(credentials) {
         })
 }
 
-
 export function signup(credentials) {
-    return userService.signup(credentials)
+    return userService
+        .signup(credentials)
         .then(user => {
             store.dispatch({ type: SET_USER, user })
         })
@@ -25,9 +26,9 @@ export function signup(credentials) {
         })
 }
 
-
 export function logout() {
-    return userService.logout()
+    return userService
+        .logout()
         .then(() => {
             store.dispatch({ type: SET_USER, user: null })
         })
@@ -37,9 +38,9 @@ export function logout() {
         })
 }
 
-
 export async function updateUserBalance() {
-    if (!userService.getLoggedinUser()) return
+    if (!userService.getLoggedinUser())
+        return
     try {
         const newBalance = await userService.updateBalance();
         await store.dispatch({ type: SET_USER_BALANCE, balance: newBalance })
@@ -50,7 +51,8 @@ export async function updateUserBalance() {
     }
 }
 export async function updateUserDetails(newUserDetails) {
-    if (!userService.getLoggedinUser()) return
+    if (!userService.getLoggedinUser())
+        return
     try {
         const updatedUser = await userService.updateUserDetails(newUserDetails);
         await store.dispatch({ type: SET_USER_DETAILS, updatedUser: updatedUser })
@@ -61,13 +63,13 @@ export async function updateUserDetails(newUserDetails) {
     }
 }
 
-
 export async function addUserActivity(txt) {
-    if (!userService.getLoggedinUser()) return
+    if (!userService.getLoggedinUser())
+        return
     try {
         const newActivity = {
             txt,
-            at: Date.now(),
+            at: Date.now()
         };
         const updatedUser = await userService.updateUserActivities(newActivity);
         await store.dispatch({ type: ADD_USER_ACTIVITY, newActivity: newActivity });
@@ -77,6 +79,5 @@ export async function addUserActivity(txt) {
         console.log('user actions -> Cannot update user activities', err)
         throw err
     }
-
 
 };
