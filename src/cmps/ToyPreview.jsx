@@ -1,4 +1,11 @@
+import PropTypes from "prop-types"
+
 export function ToyPreview({ toy }) {
+
+    ToyPreview.propTypes = {
+        toy: PropTypes.object.isRequired
+    }
+
     return (
         <article className="toy-preview">
             <h2 >Toy: {toy.name}</h2>

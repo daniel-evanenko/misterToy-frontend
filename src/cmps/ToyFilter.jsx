@@ -1,20 +1,29 @@
 import { utilService } from "../services/util.service.js"
 import { useState, useEffect, useRef } from "react"
 import { MultiSelectDropdown } from "./MultiSelectDropdown.jsx";
+import PropTypes from "prop-types";
 export function ToyFilter({ filterBy, onSetFilterBy }) {
     const labels = ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
         'Outdoor', 'Battery Powered'
     ];
-    const [filterByToEdit,
-        setFilterByToEdit] = useState({
-            ...filterBy
-        })
+    const [filterByToEdit, setFilterByToEdit] = useState({
+        ...filterBy
+    })
 
     onSetFilterBy = useRef(utilService.debounce(onSetFilterBy)).current
     useEffect(() => {
         onSetFilterBy(filterByToEdit)
     }, [filterByToEdit, onSetFilterBy])
 
+    ToyFilter.propTypes = {
+        filterBy: PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            byStock: PropTypes.oneOf(["all", "inStock", "outOfStock"]).isRequired,
+            byLabels: PropTypes.arrayOf(PropTypes.string).isRequired,
+            sortBy: PropTypes.oneOf(["name", "createdAt", "price"]).isRequired,
+        }).isRequired,
+        onSetFilterBy: PropTypes.func.isRequired,
+    };
     function handleChange({ target }) {
         const field = target.name
         let value = target.value

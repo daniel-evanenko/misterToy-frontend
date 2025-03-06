@@ -1,6 +1,12 @@
+import PropTypes from "prop-types";
 import { ToyPreview } from "./ToyPreview.jsx"
 import { Link } from "react-router-dom"
 export function ToyList({ toys, onRemoveToy }) {
+
+  ToyList.propTypes = {
+    toys: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onRemoveToy: PropTypes.func.isRequired, 
+  };
 
   return (
     <ul className="toy-list">

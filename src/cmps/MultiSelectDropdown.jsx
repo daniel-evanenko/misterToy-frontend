@@ -1,6 +1,15 @@
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 
 export function MultiSelectDropdown({ options, selectedValues, onChange, name }) {
+
+    MultiSelectDropdown.propTypes = {
+        options: PropTypes.arrayOf(PropTypes.string).isRequired,
+        selectedValues: PropTypes.arrayOf(PropTypes.string).isRequired,
+        onChange: PropTypes.func.isRequired,
+        name: PropTypes.string.isRequired
+    }
+    
     const [isOpen, setIsOpen] = useState(false);
 
     function handleToggle() {
