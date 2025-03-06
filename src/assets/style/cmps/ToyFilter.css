@@ -4,3 +4,6 @@
     margin: 1em 0;
 }
 
+.toy-filter label{
+    margin-inline-start: 1em;
+}

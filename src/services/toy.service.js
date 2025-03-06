@@ -22,17 +22,36 @@ function query(filterBy = {}) {
         .query(toy_KEY)
         .then(toys => {
             if (filterBy.name) {
-                const regExp = new RegExp(filterBy.name, 'i');
-                toys = toys.filter(toy => regExp.test(toy.name));
+                const regExp = new RegExp(filterBy.name, 'i')
+                toys = toys.filter(toy => regExp.test(toy.name))
             }
 
             if (filterBy.byStock) {
-                toys = toys.filter(toy => filterBy.byStock === 'inStock' ? toy.inStock === true : filterBy.byStock === 'outOfStock' ? toy.inStock !== true : true);
+                toys = toys.filter(toy => filterBy.byStock === 'inStock'
+                    ? toy.inStock === true
+                    : filterBy.byStock === 'outOfStock'
+                        ? toy.inStock !== true
+                        : true)
             }
 
             if (Array.isArray(filterBy.byLabels) && filterBy.byLabels.length > 0) {
-                toys = toys.filter(toy => Array.isArray(toy.labels) && filterBy.byLabels.every(label => toy.labels.includes(label)));
+                toys = toys.filter(toy => Array.isArray(toy.labels) && filterBy.byLabels.every(label => toy.labels.includes(label)))
 
+            }
+            if (filterBy.sortBy) {
+                switch (filterBy.sortBy) {
+                    case 'name':
+                        toys = toys.sort((a, b) => a.name.localeCompare(b.name))
+                        break
+                    case 'price':
+                        toys = toys.sort((a, b) => b.price - a.price)
+                        break
+                    case 'created':
+                        toys = toys.sort((a, b) => b.createdAt - a.createdAt)
+                        break
+                    default:
+                        break;
+                }
             }
 
             return toys
@@ -69,7 +88,7 @@ function getEmptyToy(name = '', price = '', inStock = false) {
 }
 
 function getDefaultFilter() {
-    return { name: '', byStock: 'all', byLabels: [] }
+    return { name: '', byStock: 'all', byLabels: [], sortBy: 'name' }
 }
 
 function getFilterFromSearchParams(searchParams) {
@@ -137,9 +156,12 @@ function _setNextPrevToyId(toy) {
 
 function _getToyCountByPriceMap(toys) {
     const toyCountByPriceMap = toys.reduce((map, toy) => {
-        if (toy.price < 30) map.low++
-        else if (toy.price < 70) map.normal++
-        else map.high++
+        if (toy.price < 30)
+            map.low++
+        else if (toy.price < 70)
+            map.normal++
+        else
+            map.high++
         return map
     }, {
         low: 0,

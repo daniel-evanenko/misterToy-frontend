@@ -13,7 +13,7 @@ export function ToyFilter({ filterBy, onSetFilterBy }) {
     onSetFilterBy = useRef(utilService.debounce(onSetFilterBy)).current
     useEffect(() => {
         onSetFilterBy(filterByToEdit)
-    }, [filterByToEdit])
+    }, [filterByToEdit, onSetFilterBy])
 
     function handleChange({ target }) {
         const field = target.name
@@ -44,8 +44,9 @@ export function ToyFilter({ filterBy, onSetFilterBy }) {
         onSetFilterBy(filterByToEdit)
     }
 
-    const { name, byStock, byLabels = [] } = filterByToEdit
+    const { name, byStock, byLabels, sortBy } = filterByToEdit
     const filterByOpts = ['all', 'inStock', 'outOfStock']
+    const sortByOpts = ['name', 'price', 'created']
     return (
         <section className="toy-filter">
             <h2>Filter toys</h2>
@@ -60,6 +61,12 @@ export function ToyFilter({ filterBy, onSetFilterBy }) {
                 <label htmlFor="byStock">Filter by:</label>
                 <select value={byStock} onChange={handleChange} name="byStock">
                     {filterByOpts.map(opt => (
+                        <option key={opt} value={opt}>{opt}</option>
+                    ))}
+                </select>
+                <label htmlFor="sortBy">Sort by:</label>
+                <select value={sortBy} onChange={handleChange} name="sortBy">
+                    {sortByOpts.map(opt => (
                         <option key={opt} value={opt}>{opt}</option>
                     ))}
                 </select>
