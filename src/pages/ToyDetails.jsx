@@ -1,12 +1,16 @@
 import { toyService } from "../services/toy.service.js"
 import { showErrorMsg } from "../services/event-bus.service.js"
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function ToyDetails() {
 
     const [toy, setToy] = useState(null)
+    const [isLoading, setIsLoading] = useState(true)
+
     const params = useParams()
     const navigate = useNavigate()
 
@@ -16,12 +20,15 @@ export function ToyDetails() {
 
 
     function loadTodo() {
+        setIsLoading(true)
         toyService.get(params.toyId)
             .then(setToy)
             .catch(err => {
                 console.error('err:', err)
                 showErrorMsg('Cannot load toy')
                 navigate('/toy')
+            }).finally(() => {
+                setIsLoading(false)
             })
     }
 
@@ -29,9 +36,18 @@ export function ToyDetails() {
         navigate('/toy')
     }
 
-    if (!toy) return <div className="loader"></div>
+    if (!toy || isLoading) return <div className="loader"></div>
     return (
-        <section className="toy-details">
+        <article className="toy-details">
+            <nav className='book-details-nav'>
+                <Link to={`/toy/${toy.nextToyId}`}>
+                    <button>      <FontAwesomeIcon icon={faArrowLeft} />
+                    </button>
+                </Link>
+                <Link to={`/toy/${toy.prevToyId}`}>
+                    <button><FontAwesomeIcon icon={faArrowRight} /></button>
+                </Link>
+            </nav>
             <h1 >Name: {toy.name}</h1>
             <img src={toy.imgUrl} alt={toy.name} />
             <h2>Price: ${toy.price}</h2>
@@ -44,10 +60,6 @@ export function ToyDetails() {
                 ))}
             </div>
             <button onClick={onBack}>Back to list</button>
-            <div>
-                <Link to={`/toy/${toy.nextToyId}`}>Next Toy</Link> |
-                <Link to={`/toy/${toy.prevToyId}`}>Previous Toy</Link>
-            </div>
-        </section>
+        </article>
     )
 }

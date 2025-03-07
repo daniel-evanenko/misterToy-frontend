@@ -8,6 +8,7 @@ import { showModal } from "../store/actions/modal.actions.js"
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import { NicePopup } from "../cmps/NicePopup.jsx"
 
 export function ToyIndex() {
   const dispatch = useDispatch()
@@ -24,6 +25,9 @@ export function ToyIndex() {
   }
 
   function onRemoveToy(toy) {
+
+
+
     dispatch(showModal({
       message: "Are you sure you want to delete this toy?",
       onConfirm: () => removeToy(toy._id).then(() => {
@@ -46,6 +50,8 @@ export function ToyIndex() {
         </>
         : <div className="loader"></div>
       }
+      <div>
+      </div>
     </section>
   )
 }

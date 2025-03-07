@@ -1,8 +1,27 @@
 .toy-details {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    position: relative;
+    margin-block-start: 20px;
+    border-radius: 15px;
+    padding: 10px;
+    background: var(--clr1bg-light);
+
 }
+
+.toy-details .toy-details-nav {
+    display: flex;
+    gap: 10px;
+}
+
+
+/* .toy-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+} */
 
 .toy-details h1 {
     color: var(--clr1);
@@ -18,13 +37,14 @@
     max-width: 200px;
 }
 
-.toy-details.labels {
+.toy-details .labels {
+    text-align: center;
     margin-top: 10px;
 }
 
 .toy-details .label {
     display: inline-block;
-    background-color: var(--clr1bg-light);
+    background-color: var(--clr1);
     color: var(--gray3);
     padding: 5px 10px;
     margin: 3px;

@@ -24,7 +24,7 @@ function App() {
         }}>
         <section className="app main-layout">
           <AppHeader />
-          <main>
+          <main className='content-grid'>
             <Routes>
               <Route path="/" element={< Home />} />
               <Route path="/about" element={< About />}>
