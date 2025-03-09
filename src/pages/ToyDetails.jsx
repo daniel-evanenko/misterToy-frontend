@@ -1,15 +1,18 @@
 import { toyService } from "../services/toy.service.js"
 import { showErrorMsg } from "../services/event-bus.service.js"
-import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faArrowRight, faComment } from "@fortawesome/free-solid-svg-icons";
 
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { NicePopup } from "../cmps/NicePopup.jsx";
+import { Chat } from "../cmps/Chat.jsx";
 
 export function ToyDetails() {
 
     const [toy, setToy] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const params = useParams()
     const navigate = useNavigate()
@@ -59,7 +62,11 @@ export function ToyDetails() {
                     <span key={idx} className="label">{label}</span>
                 ))}
             </div>
-            <button onClick={onBack}>Back to list</button>
+            {isPopupOpen && <NicePopup main={<Chat></Chat>} onClose={() => setIsPopupOpen(false)} />}
+            <div>
+                <button onClick={onBack}>Back to list</button>
+                <button><FontAwesomeIcon icon={faComment} onClick={() => setIsPopupOpen(true)} /></button>
+            </div>
         </article>
     )
 }

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types"
 import React, { useEffect } from "react";
 
-export function NicePopup({ isOpen, onClose, header, main, footer }) {
+export function NicePopup({ onClose, header, main, footer }) {
     useEffect(() => {
         function handleKeyDown(event) {
             if (event.key === "Escape") {
@@ -14,11 +14,7 @@ export function NicePopup({ isOpen, onClose, header, main, footer }) {
         };
     }, [onClose]);
 
-    if (!isOpen)
-        return null;
-
     NicePopup.propTypes = {
-        isOpen: PropTypes.bool.isRequired,
         onClose: PropTypes.func.isRequired,
         header: PropTypes.string,
         main: PropTypes.string,
