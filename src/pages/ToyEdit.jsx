@@ -2,15 +2,18 @@ import { toyService } from "../services/toy.service.js"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { saveToy } from "../store/actions/toy.actions.js"
 import { addUserActivity } from "../store/actions/user.actions.js"
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useConfirmTabClose } from "../hooks/useConfirmTabClose.js"
 export function ToyEdit() {
 
     const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate()
     const params = useParams()
-    
+    const hasUnsavedChanges = useRef(false)
+    useConfirmTabClose(hasUnsavedChanges.current)
+
     useEffect(() => {
         if (params.toyId) loadToy()
     }, [])
@@ -41,6 +44,7 @@ export function ToyEdit() {
         }
 
         setToyToEdit(prevTodoToEdit => ({ ...prevTodoToEdit, [field]: value }))
+        hasUnsavedChanges.current = true
     }
 
     function onSaveTodo(ev) {

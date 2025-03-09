@@ -1,17 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
+import { useOnlineStatus } from "../hooks/useOnlineStatus";
 export function Chat() {
     const userFromStore = useSelector(storeState => storeState.userModule.loggedInUser);
     const messagesEndRef = useRef(null);
     const [inputText, setInputText] = useState("");
     const [messages, setMessages] = useState([{ id: 1, sender: "support", text: "How can I help?" }])
+    const isOnline = useOnlineStatus()
 
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
-    function handleSend() {
+    function handleSend(ev) {
+        ev.preventDefault()
         if (inputText.trim() === "") return;
         const newMessage = {
             id: messages.length + 1,
@@ -35,9 +38,15 @@ export function Chat() {
         ]);
     }
 
+
     return (
-        <section>
-            <div className="chat-container">
+        <div className="chat-container">
+            <div className="status-container">
+                <span className={`status-dot ${isOnline ? "online" : "offline"}`}></span>
+                <span>{isOnline ? "Online" : "Offline"}</span>
+            </div>
+
+            <div className="chat-messages">
                 {messages.map((msg, index) => (
                     <div key={msg.id} className={`chat-message ${index % 2 === 0 ? "even" : "odd"}`}>
                         <strong className={msg.sender === "support" ? "support" : "guest"}>
@@ -46,17 +55,28 @@ export function Chat() {
                         {msg.text}
                     </div>
                 ))}
-                <div ref={messagesEndRef}></div>
             </div>
-            <div className="chat-input">
+
+            <form className="chat-input" onSubmit={handleSend}>
                 <input
-                    value={inputText}
                     type="text"
-                    placeholder="Type a message..."
+                    value={inputText}
                     onChange={(e) => setInputText(e.target.value)}
+                    placeholder="Type a message..."
                 />
-                <button onClick={handleSend}>Send</button>
-            </div>
-        </section>
+                <SendButton></SendButton>
+            </form>
+
+        </div>
     );
+}
+
+function SendButton() {
+    const isOnline = useOnlineStatus()
+
+    return (
+        <button disabled={!isOnline} >
+            {isOnline ? 'Send' : 'Reconnecting...'}
+        </button>
+    )
 }
