@@ -1,24 +1,34 @@
 import { store } from "../store.js";
 import { toyService } from "../../services/toy.service.js";
-import { ADD_TOY, REMOVE_TOY, SET_IS_LOADING, SET_TOYS, UPDATE_TOY } from "../reducers/toy.reducer.js";
+import { ADD_TOY, REMOVE_TOY, SET_HAS_MORE, SET_IS_LOADING, SET_TOYS, UPDATE_TOY } from "../reducers/toy.reducer.js";
 
-export async function loadToys() {
-    const filterBy = store.getState().toyModule.filterBy
-    store.dispatch({ type: SET_IS_LOADING, isLoading: true })
-    return toyService.query(filterBy)
-        .then(toys => {
-            store.dispatch({ type: SET_TOYS, toys })
+export async function loadToys({ offset = 0 }) {
+    const state = store.getState();
+    const filterBy = state.toyModule.filterBy
+
+    return toyService.query(filterBy, offset)
+        .then(({ toys, total }) => {
+            const currentToys = state.toyModule.toys;
+            const newOffset = offset + toys.length;
+
+            store.dispatch({
+                type: SET_TOYS,
+                toys: offset === 0
+                    ? toys
+                    : [...currentToys, ...toys]
+            });
+
+            store.dispatch({
+                type: SET_HAS_MORE,
+                hasMore: newOffset < total
+            });
         })
         .catch(err => {
-            console.log('toy action -> Cannot load toys', err)
-            throw err
+            console.log('Cannot load toys:', err);
+            throw err;
         })
-        .finally(() => {
-            store.dispatch({ type: SET_IS_LOADING, isLoading: false })
-        })
+        .finally(() => store.dispatch({ type: SET_IS_LOADING, isLoading: false }))
 }
-
-
 
 
 export function removeToy(toyId) {
@@ -31,7 +41,6 @@ export function removeToy(toyId) {
             throw err
         })
 }
-
 
 export function saveToy(toy) {
     const type = toy._id ? UPDATE_TOY : ADD_TOY

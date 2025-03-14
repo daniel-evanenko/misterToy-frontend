@@ -11,7 +11,9 @@ export function ToyList({ toys, onRemoveToy }) {
   return (
     <ul className="toy-list">
       {toys.length > 0
-        ? toys.map(toy => <li key={toy._id}>
+        ? 
+        toys.map(toy => <li key={toy._id}>
+        
           <ToyPreview toy={toy} />
           <section>
             <button onClick={() => onRemoveToy(toy)}>Remove</button>
@@ -22,7 +24,7 @@ export function ToyList({ toys, onRemoveToy }) {
               <Link to={`/toy/edit/${toy._id}`}>Edit</Link>
             </button>
           </section>
-        </li>)
+        </li>)  
         : <p>No toys to show</p>}
     </ul>
   )

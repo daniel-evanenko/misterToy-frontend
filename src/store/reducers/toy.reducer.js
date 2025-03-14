@@ -7,11 +7,12 @@ export const ADD_TOY = 'ADD_TOY'
 export const UPDATE_TOY = 'UPDATE_TOY'
 export const SET_FILTER_BY = 'SET_FILTER_BY'
 export const SET_IS_LOADING = 'SET_IS_LOADING'
-
+export const SET_HAS_MORE = 'SET_HAS_MORE'
 const initialState = {
     toys: [],
     filterBy: toyService.getDefaultFilter(),
-    isLoading: false
+    isLoading: false,
+    hasMore: true,
 }
 
 export function toyReducer(state = initialState, cmd = {}) {
@@ -58,6 +59,8 @@ export function toyReducer(state = initialState, cmd = {}) {
                 ...state,
                 isLoading: cmd.isLoading
             }
+        case SET_HAS_MORE:
+            return { ...state, hasMore: cmd.hasMore };
         default:
             return state
 

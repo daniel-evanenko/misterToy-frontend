@@ -2,32 +2,31 @@ import { ToyFilter } from "../cmps/ToyFilter.jsx"
 import { ToyList } from "../cmps/ToyList.jsx"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { loadToys, removeToy } from "../store/actions/toy.actions.js"
-import { SET_FILTER_BY } from "../store/reducers/toy.reducer.js"
+import { SET_FILTER_BY, SET_IS_LOADING } from "../store/reducers/toy.reducer.js"
 import { addUserActivity } from "../store/actions/user.actions.js"
 import { showModal } from "../store/actions/modal.actions.js"
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { NicePopup } from "../cmps/NicePopup.jsx"
+import InfiniteScroll from "react-infinite-scroll-component"
 
 export function ToyIndex() {
   const dispatch = useDispatch()
   const toys = useSelector(storeState => storeState.toyModule.toys)
   const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
   const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
+  const hasMore = useSelector(storeState => storeState.toyModule.hasMore)
 
   useEffect(() => {
-    loadToys().catch(() => showErrorMsg('Cannot load todos'))
-  }, [filterBy])
+    dispatch({ type: SET_IS_LOADING, isLoading: true })
+    loadToys({ offset: 0 })
+  }, [dispatch, filterBy])
 
   function onSetFilter(filterBy) {
     dispatch({ type: SET_FILTER_BY, filterBy })
   }
 
   function onRemoveToy(toy) {
-
-
-
     dispatch(showModal({
       message: "Are you sure you want to delete this toy?",
       onConfirm: () => removeToy(toy._id).then(() => {
@@ -37,21 +36,34 @@ export function ToyIndex() {
     }));
   }
 
+  function fetchMoreToys() {
+    if (!isLoading && hasMore) {
+      loadToys({ offset: toys.length })
+    }
+  }
   return (
     <section className="toy-index">
       <ToyFilter filterBy={filterBy} onSetFilterBy={onSetFilter} />
       <div>
         <Link to="/toy/edit" className="btn">Add Toy</Link>
       </div>
-      {!isLoading
-        ? <>
+
+      {!isLoading ? (
+        <>
           <h2>Toys List</h2>
-          <ToyList toys={toys} onRemoveToy={onRemoveToy} />
+          <InfiniteScroll style={{ height: "none", overflow: "none" }}
+
+            dataLength={toys.length}
+            next={fetchMoreToys}
+            hasMore={hasMore}
+            loader={<div className="item-loader"></div>}
+          >
+            <ToyList toys={toys} onRemoveToy={onRemoveToy} />
+          </InfiniteScroll>
         </>
-        : <div className="loader"></div>
-      }
-      <div>
-      </div>
+      ) : (
+        <div className="loader"></div>
+      )}
     </section>
   )
 }
