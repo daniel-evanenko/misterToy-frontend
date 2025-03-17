@@ -1,8 +1,7 @@
 .multi-select {
-    position: relative;
-    display: inline-block;
-  }
-  
+  position: relative;
+  display: inline-block;
+
   .dropdown-btn {
     padding: 8px 12px;
     border: 1px solid #ccc;
@@ -10,7 +9,7 @@
     cursor: pointer;
     border-radius: 4px;
   }
-  
+
   .dropdown-list {
     position: absolute;
     background: white;
@@ -23,17 +22,18 @@
     overflow-y: auto;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   }
-  
-  .dropdown-list li {
+
+  li {
     padding: 5px;
     display: flex;
     align-items: center;
   }
-  
-  .dropdown-list label {
+
+  label {
     display: flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
   }
-  
+
+}

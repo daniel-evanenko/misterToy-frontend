@@ -12,7 +12,7 @@ import { AboutVision } from './cmps/AboutVision.jsx';
 import { Dashboard } from './pages/Dashboard.jsx';
 import { ConfirmModal } from './cmps/ConfirmModal.jsx';
 import { UserDetails } from './cmps/UserDetails.jsx';
-import './assets/style/App.css';
+import './assets/style/App.scss';
 
 function App() {
   return (

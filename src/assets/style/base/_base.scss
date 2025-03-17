@@ -2,11 +2,10 @@
   box-sizing: border-box;
 }
 
-html {}
 
 body {
   margin: 0;
-  color: var(--gray3);
+  color: $gray3;
 }
 
 h1,
@@ -56,8 +55,8 @@ object {
 
 .loader {
   caret-color: transparent;
-  border: 16px solid var(--clr1bg-light);
-  border-top: 16px solid var(--clr1);
+  border: 16px solid$clr1bg-light;
+  border-top: 16px solid$clr1;
   border-radius: 50%;
   width: 120px;
   height: 120px;
@@ -82,8 +81,8 @@ object {
 
 .item-loader {
   caret-color: transparent;
-  border: 16px solid var(--clr1bg-light);
-  border-top: 16px solid var(--clr1);
+  border: 16px solid$clr1bg-light;
+  border-top: 16px solid$clr1;
   border-radius: 50%;
   width: 120px;
   height: 120px;

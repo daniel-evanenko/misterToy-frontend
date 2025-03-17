@@ -8,18 +8,18 @@
     font-weight: bold;
     border: 3px solid black;
     border-radius: 2px;
-}
 
-.user-msg.success {
-    background-color: var(--clr1);
-}
+    .success {
+        background-color: $clr1;
+    }
 
-.user-msg.error {
-    background-color: var(--clr2);
-}
+    .error {
+        background-color: $clr2;
+    }
 
+    button {
+        float: right;
+        margin: 1em;
+    }
 
-.user-msg button{
-    float: right;
-    margin: 1em;
 }

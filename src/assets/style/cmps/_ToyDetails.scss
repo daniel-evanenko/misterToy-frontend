@@ -1,0 +1,52 @@
+.toy-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    margin-block-start: 20px;
+    border-radius: 15px;
+    padding: 10px;
+    background: $clr1bg-light;
+
+    .toy-details-nav {
+        display: flex;
+        gap: 10px;
+    }
+
+    h1 {
+        color: $clr1;
+        font-size: 2em;
+
+    }
+
+    h5 {
+        color: $clr2;
+    }
+
+    img {
+        max-width: 200px;
+    }
+
+    .labels {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .label {
+        display: inline-block;
+        background-color: $clr1;
+        color: $gray3;
+        padding: 5px 10px;
+        margin: 3px;
+        border-radius: 5px;
+        font-size: 1em;
+    }
+
+    .available {
+        color: green;
+    }
+
+    .unavailable {
+        color: red;
+    }
+}
