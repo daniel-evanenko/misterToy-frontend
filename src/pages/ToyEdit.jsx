@@ -5,6 +5,63 @@ import { addUserActivity } from "../store/actions/user.actions.js"
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useConfirmTabClose } from "../hooks/useConfirmTabClose.js"
+import { Button, FormControlLabel, TextField } from '@mui/material';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import Checkbox from '@mui/material/Checkbox';
+
+const EditToySchema = Yup.object().shape({
+    name: Yup.string().required('Name is required'),
+    price: Yup.number().required('Price is required').positive('Price must be positive'),
+    inStock: Yup.boolean()
+})
+
+
+
+
+function CustomInput({ handleExternalChange, ...props }) {
+    const { name, onChange } = props
+
+    const handleChange = (e) => {
+        onChange(e)
+        if (handleExternalChange) handleExternalChange(e)
+    }
+
+    return (
+        <TextField
+            {...props}
+            id="outlined-basic"
+            label={name}
+            variant="outlined"
+            onChange={handleChange}
+        />
+    )
+}
+
+
+
+function CustomCheckbox({ handleExternalChange, ...props }) {
+    const { name, value, onChange } = props
+    const handleChange = (e) => {
+        onChange(e)
+        if (handleExternalChange) handleExternalChange(e)
+    }
+    return (
+        <FormControlLabel
+            control={
+                <Checkbox
+                    name={name}
+                    checked={!!value}
+                    onChange={handleChange}
+                />
+            }
+            label={name}
+        />
+    )
+}
+
+
+
 export function ToyEdit() {
 
     const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
@@ -17,6 +74,13 @@ export function ToyEdit() {
     useEffect(() => {
         if (params.toyId) loadToy()
     }, [])
+
+    function formValidationClass(errors, touched) {
+        const isError = !!Object.keys(errors).length
+        const isTouched = !!Object.keys(touched).length
+        if (!isTouched) return ''
+        return isError ? 'error' : 'valid'
+    }
 
     function loadToy() {
         setIsLoading(true)
@@ -47,8 +111,7 @@ export function ToyEdit() {
         hasUnsavedChanges.current = true
     }
 
-    function onSaveTodo(ev) {
-        ev.preventDefault()
+    function onSaveTodo() {
         saveToy({ ...toyToEdit })
             .then((savedToy) => {
                 navigate('/toy')
@@ -68,18 +131,69 @@ export function ToyEdit() {
 
     return (
         <section className={`toy-edit ${loadingClass}`}>
-            <form onSubmit={onSaveTodo} >
-                <label htmlFor="txt">Name:</label>
-                <input onChange={handleChange} value={name} type="text" name="name" id="name" />
-                <label htmlFor="txt">Price:</label>
-                <input onChange={handleChange} value={price} type="number" name="price" id="price" />
-                <div>
-                    <label htmlFor="inStock">InStock:</label>
-                    <input onChange={handleChange} checked={inStock} type="checkbox" name="inStock" id="inStock" />
-                </div>
+            <Formik
+                enableReinitialize
+                initialValues={{
+                    name: name || '',
+                    price: price || '',
+                    inStock: inStock || false,
+                }}
+                validationSchema={EditToySchema}
+                onSubmit={onSaveTodo}
+            >
+                {({ errors, touched }) => {
+                    const formClass = formValidationClass(errors, touched)
+                    return (
+                        <Form className={`formik ${formClass}`}>
+                            <Field
+                                as={CustomInput}
+                                name="name"
+                                handleExternalChange={handleChange}
+                            />
 
-                <button>Save</button>
-            </form>
+                            {errors.name && touched.name && (
+                                <div>{errors.name}</div>
+                            )}
+                            <Field
+                                as={CustomInput}
+                                name="price"
+                                handleExternalChange={handleChange}
+                            />
+
+                            {errors.price && touched.price && (
+                                <div>{errors.price}</div>
+                            )}
+
+                            <Field
+                                as={CustomCheckbox}
+                                name="inStock"
+                                handleExternalChange={handleChange}
+                            />
+               <button type="submit" className={formClass} >Save</button>
+
+                            {/* <Button sx={{background:'rgb(233, 206, 221);'}} type="submit" className={formClass} variant="contained">Submit</Button> */}
+                        </Form>
+                    )
+                }}
+            </Formik>
+
         </section>
     )
+    // return (
+    //     <section className={`toy-edit ${loadingClass}`}>
+    //         <form onSubmit={onSaveTodo} >
+    //             <label htmlFor="txt">Name:</label>
+    //             <input onChange={handleChange} value={name} type="text" name="name" id="name" />
+    //             <label htmlFor="txt">Price:</label>
+    //             <input onChange={handleChange} value={price} type="number" name="price" id="price" />
+    //             <div>
+    //                 <label htmlFor="inStock">InStock:</label>
+    //                 <input onChange={handleChange} checked={inStock} type="checkbox" name="inStock" id="inStock" />
+    //             </div>
+
+    //             <button>Save</button>
+    //         </form>
+    //     </section>
+    // )
 }
+
