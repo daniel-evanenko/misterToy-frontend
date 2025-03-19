@@ -2,7 +2,7 @@ import { ToyFilter } from "../cmps/ToyFilter.jsx"
 import { ToyList } from "../cmps/ToyList.jsx"
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 import { loadToys, removeToy } from "../store/actions/toy.actions.js"
-import { SET_FILTER_BY, SET_IS_LOADING } from "../store/reducers/toy.reducer.js"
+import { SET_IS_LOADING } from "../store/reducers/toy.reducer.js"
 import { addUserActivity } from "../store/actions/user.actions.js"
 import { showModal } from "../store/actions/modal.actions.js"
 import { useEffect } from 'react'
@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import InfiniteScroll from "react-infinite-scroll-component"
 import { useFilterSearchParams } from "../hooks/useFilterSearchParams.js"
 
-export function ToyIndex() {
+export default function ToyIndex() {
   const dispatch = useDispatch()
   const toys = useSelector(storeState => storeState.toyModule.toys)
   const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
@@ -23,11 +23,7 @@ export function ToyIndex() {
     dispatch({ type: SET_IS_LOADING, isLoading: true })
     loadToys({ offset: 0 })
     setSearchParams(filterBy)
-  }, [dispatch, filterBy,])
-
-  function onSetFilter(filterBy) {
-    dispatch({ type: SET_FILTER_BY, filterBy })
-  }
+  }, [filterBy])
 
   function onRemoveToy(toy) {
     dispatch(showModal({
@@ -46,7 +42,7 @@ export function ToyIndex() {
   }
   return (
     <section className="toy-index">
-      <ToyFilter filterBy={{ ...filterBy }} onSetFilterBy={onSetFilter} />
+      <ToyFilter filterBy={{ ...filterBy }} />
       <div>
         <Link to="/toy/edit" className="btn">Add Toy</Link>
       </div>

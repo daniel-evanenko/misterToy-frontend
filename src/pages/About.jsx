@@ -1,13 +1,13 @@
 import React, { useRef, useState } from "react";
 import { Outlet, NavLink } from 'react-router-dom';
 import { utilService } from '../services/util.service.js';
-import { AboutTeam } from '../cmps/AboutTeam.jsx';
-import { AboutVision } from '../cmps/AboutVision.jsx';
 import { AccordionGroup } from "../cmps/AccordionGroup.jsx";
 import { AccordionItem } from "../cmps/AccordionItem.jsx";
 import PropTypes from "prop-types";
+import AboutTeam from "../cmps/AboutTeam.jsx";
+import AboutVision from "../cmps/AboutVision.jsx";
 
-export function About() {
+export default function About() {
     const titleRef = useRef()
     const count = 1000001
     const [isActive, setIsActive] = useState(false)

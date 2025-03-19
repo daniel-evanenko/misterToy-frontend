@@ -3,12 +3,14 @@ import { useState, useRef } from "react"
 import { MultiSelectDropdown } from "./MultiSelectDropdown.jsx";
 import PropTypes from "prop-types";
 import { useEffectUpdate } from "../hooks/useEffectUpdate.js";
-export function ToyFilter({ filterBy, onSetFilterBy }) {
+import { setFilterBy } from "../store/actions/toy.actions.js";
+export function ToyFilter({ filterBy }) {
     const labels = ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
         'Outdoor', 'Battery Powered'
     ];
     const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
-    const onSetFilterByDebounce = useRef(utilService.debounce(onSetFilterBy)).current
+    const onSetFilterByDebounce = useRef(utilService.debounce(setFilterBy)).current
+
 
     useEffectUpdate(() => {
         onSetFilterByDebounce(filterByToEdit)
@@ -49,7 +51,7 @@ export function ToyFilter({ filterBy, onSetFilterBy }) {
 
     function onSubmitFilter(ev) {
         ev.preventDefault()
-        onSetFilterBy(filterByToEdit)
+        setFilterBy(filterByToEdit)
     }
 
     const { name, byStock, byLabels, sortBy } = filterByToEdit

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Chart } from '../cmps/Chart.jsx'
 import { toyService } from '../services/toy.service.js'
 
-export function Dashboard() {
+export default function Dashboard() {
 
     const [toys, setToys] = useState([])
     const [priceStats, setPriceStats] = useState([])

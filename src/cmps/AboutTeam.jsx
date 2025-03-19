@@ -1,5 +1,5 @@
 
-export function AboutTeam() {
+export default function AboutTeam() {
     return (
         <section>
             <h2>Best Team</h2>

@@ -1,5 +1,5 @@
 
-export function AboutVision() {
+export default function AboutVision() {
     return (
         <section>
             <h2>Vision</h2>

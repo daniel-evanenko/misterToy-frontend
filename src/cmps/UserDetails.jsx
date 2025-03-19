@@ -4,7 +4,7 @@ import { updateUserDetails } from "../store/actions/user.actions.js";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-export function UserDetails() {
+export default function UserDetails() {
   const userFromStore = useSelector(storeState => storeState.userModule.loggedInUser);
   const [user,
     setUser] = useState(userFromStore);

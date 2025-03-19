@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { NicePopup } from "../cmps/NicePopup.jsx";
 import { Chat } from "../cmps/Chat.jsx";
 
-export function ToyDetails() {
+export default function ToyDetails() {
 
     const [toy, setToy] = useState(null)
     const [isLoading, setIsLoading] = useState(true)

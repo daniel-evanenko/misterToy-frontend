@@ -62,7 +62,7 @@ function CustomCheckbox({ handleExternalChange, ...props }) {
 
 
 
-export function ToyEdit() {
+export default function ToyEdit() {
 
     const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
     const [isLoading, setIsLoading] = useState(false);
