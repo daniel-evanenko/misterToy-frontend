@@ -157,6 +157,7 @@ export default function ToyEdit() {
                             <Field
                                 as={CustomInput}
                                 name="price"
+                                type='number'
                                 handleExternalChange={handleChange}
                             />
 
