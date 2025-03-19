@@ -1,0 +1,1 @@
+import{j as e}from"./index-CU16BnFX.js";function s(){return e.jsxs("section",{children:[e.jsx("h2",{children:"Best Team"}),e.jsxs("ul",{children:[e.jsx("li",{children:"Popo Decaprio "}),e.jsx("li",{children:"Jini Baba"})]})]})}export{s as default};

@@ -1,1 +1,0 @@
-import{j as e}from"./index-Du-vj0wi.js";function s(){return e.jsxs("section",{children:[e.jsx("h2",{children:"Vision"}),e.jsxs("ul",{children:[e.jsx("li",{children:"Save the day"}),e.jsx("li",{children:"Spread some love"}),e.jsx("li",{children:"Take over the world"})]})]})}export{s as default};
