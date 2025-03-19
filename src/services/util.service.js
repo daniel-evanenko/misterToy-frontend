@@ -8,7 +8,8 @@ export const utilService = {
     timeAgo,
     debounce,
     getRandomLabels,
-    getRandomName
+    getRandomName,
+    getExistingProperties
 }
 
 function makeId(length = 6) {
@@ -105,4 +106,14 @@ function getRandomLabels() {
     ];
     const shuffled = [...labels].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, Math.floor(Math.random() * labels.length) + 1);
+}
+function getExistingProperties(obj) {
+    const truthyObj = {}
+    for (const key in obj) {
+        const val = obj[key]
+        if (val || typeof val === 'boolean') {
+            truthyObj[key] = val
+        }
+    }
+    return truthyObj
 }

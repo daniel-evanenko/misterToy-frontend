@@ -1,19 +1,18 @@
 import { utilService } from "../services/util.service.js"
-import { useState, useEffect, useRef } from "react"
+import { useState, useRef } from "react"
 import { MultiSelectDropdown } from "./MultiSelectDropdown.jsx";
 import PropTypes from "prop-types";
+import { useEffectUpdate } from "../hooks/useEffectUpdate.js";
 export function ToyFilter({ filterBy, onSetFilterBy }) {
     const labels = ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle',
         'Outdoor', 'Battery Powered'
     ];
-    const [filterByToEdit, setFilterByToEdit] = useState({
-        ...filterBy
-    })
+    const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
+    const onSetFilterByDebounce = useRef(utilService.debounce(onSetFilterBy)).current
 
-    onSetFilterBy = useRef(utilService.debounce(onSetFilterBy)).current
-    useEffect(() => {
-        onSetFilterBy(filterByToEdit)
-    }, [filterByToEdit, onSetFilterBy])
+    useEffectUpdate(() => {
+        onSetFilterByDebounce(filterByToEdit)
+    }, [filterByToEdit])
 
     ToyFilter.propTypes = {
         filterBy: PropTypes.shape({

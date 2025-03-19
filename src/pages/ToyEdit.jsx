@@ -144,7 +144,7 @@ export function ToyEdit() {
                 {({ errors, touched }) => {
                     const formClass = formValidationClass(errors, touched)
                     return (
-                        <Form className={`formik ${formClass}`}>
+                        <Form className={formClass}>
                             <Field
                                 as={CustomInput}
                                 name="name"
@@ -169,9 +169,8 @@ export function ToyEdit() {
                                 name="inStock"
                                 handleExternalChange={handleChange}
                             />
-               <button type="submit" className={formClass} >Save</button>
+                            <button type="submit" className={formClass} >Save</button>
 
-                            {/* <Button sx={{background:'rgb(233, 206, 221);'}} type="submit" className={formClass} variant="contained">Submit</Button> */}
                         </Form>
                     )
                 }}

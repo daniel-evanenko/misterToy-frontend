@@ -9,6 +9,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import InfiniteScroll from "react-infinite-scroll-component"
+import { useFilterSearchParams } from "../hooks/useFilterSearchParams.js"
 
 export function ToyIndex() {
   const dispatch = useDispatch()
@@ -16,11 +17,13 @@ export function ToyIndex() {
   const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
   const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
   const hasMore = useSelector(storeState => storeState.toyModule.hasMore)
+  const setSearchParams = useFilterSearchParams()
 
   useEffect(() => {
     dispatch({ type: SET_IS_LOADING, isLoading: true })
     loadToys({ offset: 0 })
-  }, [dispatch, filterBy])
+    setSearchParams(filterBy)
+  }, [dispatch, filterBy,])
 
   function onSetFilter(filterBy) {
     dispatch({ type: SET_FILTER_BY, filterBy })
@@ -43,7 +46,7 @@ export function ToyIndex() {
   }
   return (
     <section className="toy-index">
-      <ToyFilter filterBy={filterBy} onSetFilterBy={onSetFilter} />
+      <ToyFilter filterBy={{ ...filterBy }} onSetFilterBy={onSetFilter} />
       <div>
         <Link to="/toy/edit" className="btn">Add Toy</Link>
       </div>

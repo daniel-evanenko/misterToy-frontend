@@ -1,6 +1,6 @@
 import { store } from "../store.js";
 import { toyService } from "../../services/toy.service.js";
-import { ADD_TOY, REMOVE_TOY, SET_HAS_MORE, SET_IS_LOADING, SET_TOYS, UPDATE_TOY } from "../reducers/toy.reducer.js";
+import { ADD_TOY, REMOVE_TOY, SET_HAS_MORE, SET_IS_LOADING, SET_TOYS, UPDATE_TOY, SET_FILTER_BY } from "../reducers/toy.reducer.js";
 
 export async function loadToys({ offset = 0 }) {
     const state = store.getState();
@@ -55,3 +55,6 @@ export function saveToy(toy) {
         })
 }
 
+export function setFilterBy(filterBy) {
+    store.dispatch({ type: SET_FILTER_BY, filterBy })
+}
